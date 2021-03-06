@@ -32,7 +32,7 @@ const fastifyAjvOptionsCustom = Object.freeze({
     removeAdditional: false
   },
   plugins: [
-    require('ajv-merge-patch'),
+    require('ajv-formats'),
     [require('ajv-errors'), { singleError: false }]
   ]
 })
@@ -52,26 +52,23 @@ t.test('plugin loading', t => {
   const compiler = factory(externalSchemas1, fastifyAjvOptionsCustom)
   const validatorFunc = compiler({
     schema: {
-      $merge: {
-        source: {
-          type: 'object',
-          properties: {
-            q: {
-              type: 'string'
-            }
-          },
-          errorMessage: 'hello world'
-        },
-        with: {
-          required: ['q']
+      type: 'object',
+      properties: {
+        q: {
+          type: 'string',
+          format: 'date',
+          formatMinimum: '2016-02-06',
+          formatExclusiveMaximum: '2016-12-27'
         }
-      }
+      },
+      required: ['q'],
+      errorMessage: 'hello world'
     }
   })
-  const result = validatorFunc({ q: 'hello' })
+  const result = validatorFunc({ q: '2016-10-02' })
   t.equals(result, true)
 
-  const resultFail = validatorFunc({ })
+  const resultFail = validatorFunc({})
   t.equals(resultFail, false)
   t.equals(validatorFunc.errors[0].message, 'hello world')
 })

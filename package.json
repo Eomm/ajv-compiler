@@ -28,12 +28,12 @@
   },
   "homepage": "https://github.com/fastify/ajv-compiler#readme",
   "devDependencies": {
-    "ajv-errors": "^1.0.1",
-    "ajv-merge-patch": "^4.1.0",
+    "ajv-errors": "^2.0.0",
+    "ajv-formats": "^1.5.1",
     "standard": "^16.0.3",
     "tap": "^14.11.0"
   },
   "dependencies": {
-    "ajv": "^6.12.6"
+    "ajv": "^7.1.1"
   }
 }
